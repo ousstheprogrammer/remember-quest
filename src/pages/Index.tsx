@@ -21,11 +21,16 @@ const Index = () => {
           Your personal homework assistant that helps you stay organized and never miss an assignment again.
         </p>
         
-        <div className="mt-10">
+        <div className="mt-10 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
           <Link to="/dashboard">
             <Button size="lg" className="px-8">
               Get Started
               <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+          <Link to="/login">
+            <Button size="lg" variant="outline" className="px-8">
+              Sign In
             </Button>
           </Link>
         </div>

@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import AddHomework from "./pages/AddHomework";
 import EditHomework from "./pages/EditHomework";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add" element={<AddHomework />} />
           <Route path="/edit/:id" element={<EditHomework />} />
+          <Route path="/login" element={<Login />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
