@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,15 +20,22 @@ import {
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
+    .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -36,7 +43,46 @@ const Login = () => {
       email: "",
       password: "",
     },
+    mode: "onChange",
   });
+
+  const password = form.watch("password");
+
+  useEffect(() => {
+    if (!password) {
+      setPasswordStrength(0);
+      return;
+    }
+
+    let strength = 0;
+    
+    // Length check
+    if (password.length >= 6) strength += 1;
+    if (password.length >= 10) strength += 1;
+    
+    // Character checks
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/[0-9]/.test(password)) strength += 1;
+    if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+    
+    setPasswordStrength(strength);
+    
+    // Apply animation to the password input
+    if (passwordRef.current) {
+      passwordRef.current.classList.add("animate-pulse");
+      setTimeout(() => {
+        if (passwordRef.current) {
+          passwordRef.current.classList.remove("animate-pulse");
+        }
+      }, 300);
+    }
+  }, [password]);
+
+  const getStrengthColor = () => {
+    if (passwordStrength <= 1) return "bg-red-500";
+    if (passwordStrength <= 3) return "bg-yellow-500";
+    return "bg-green-500";
+  };
 
   const onSubmit = (data: LoginFormValues) => {
     // This is a placeholder for actual authentication logic
@@ -104,7 +150,8 @@ const Login = () => {
                         <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <FormControl>
                           <Input
-                            className="pl-10 pr-10"
+                            ref={passwordRef}
+                            className="pl-10 pr-10 transition-all duration-300"
                             type={showPassword ? "text" : "password"}
                             placeholder="••••••••"
                             {...field}
@@ -124,6 +171,21 @@ const Login = () => {
                           )}
                         </Button>
                       </div>
+                      
+                      {password && (
+                        <div className="mt-2">
+                          <div className="mb-1 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200">
+                            <div 
+                              className={`h-full transition-all duration-300 ease-in-out ${getStrengthColor()}`} 
+                              style={{ width: `${(passwordStrength / 5) * 100}%` }}
+                            ></div>
+                          </div>
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            Password must contain at least 6 characters, one uppercase letter, one number, and one special character.
+                          </p>
+                        </div>
+                      )}
+                      
                       <FormMessage />
                     </FormItem>
                   )}
