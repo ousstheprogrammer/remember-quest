@@ -54,7 +54,7 @@ export function MainLayout({ children }: MainLayoutProps) {
       <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border/50 bg-background/80 px-4 backdrop-blur-md sm:px-6">
         <div className="flex items-center">
           <BookOpen className="mr-2 h-6 w-6 text-primary" />
-          <h1 className="text-xl font-semibold">StudyMinder</h1>
+          <h1 className="text-xl font-semibold">Ouss SaaS</h1>
         </div>
         <div className="flex items-center space-x-2">
           <Button variant="ghost" size="icon" className="rounded-full">

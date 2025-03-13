@@ -15,7 +15,7 @@ const Index = () => {
         </div>
         
         <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-          Welcome to StudyMinder
+          Welcome to Ouss SaaS
         </h1>
         <p className="mt-4 max-w-xl text-balance text-lg text-muted-foreground">
           Your personal homework assistant that helps you stay organized and never miss an assignment again.
@@ -70,7 +70,7 @@ const Index = () => {
       </div>
       
       <p className="mt-16 text-sm text-muted-foreground">
-        &copy; {new Date().getFullYear()} StudyMinder. All rights reserved.
+        &copy; {new Date().getFullYear()} Ouss SaaS. All rights reserved.
       </p>
     </div>
   );

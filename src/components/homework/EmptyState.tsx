@@ -11,7 +11,7 @@ interface EmptyStateProps {
 
 export function EmptyState({
   title = "No tasks yet",
-  description = "Add your first homework task to get started.",
+  description = "Add your first homework task to get started with Ouss SaaS.",
   showAddButton = true,
 }: EmptyStateProps) {
   return (
